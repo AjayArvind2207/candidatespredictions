@@ -1,11 +1,13 @@
 
 from random import choice
-from math_methods import compute_odds_and_assign_result, run_simulations
+from math_methods import run_simulations
 import matplotlib.pyplot as plt
 from matchdata import get_finished_matches, get_active_matches, get_results_now
 from inputdata import get_elo_dictionary
 
-matches_finished = get_finished_matches()
+ROUND = 7
+PARTICIPANTS = 8
+matches_finished = get_finished_matches(round = ROUND, participants=PARTICIPANTS)
 
 matches = get_active_matches(matches_finished)
 
@@ -14,7 +16,7 @@ results_now = get_results_now()
 d = get_elo_dictionary()
 
 
-def graph(percentages):
+def graph(percentages, round):
     labels = percentages.keys()
     sizes = percentages.values()
 
@@ -24,7 +26,7 @@ def graph(percentages):
     plt.figure(figsize=(8, 8))
     plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=140, colors=colors)
     plt.axis('equal')  
-    plt.title('Odds to win candidates after round 4', y = 1.1)
+    plt.title(f'Odds to win candidates after round {round}', y = 1.1)
 
     plt.legend(loc='center left', bbox_to_anchor=(0.9, 0.5))
 
@@ -58,7 +60,7 @@ def main(num_of_iterations = 100000):
     print(overall_results)
     print(percentages)
 
-    graph(percentages)
+    graph(percentages, ROUND)
    
 
 main(300000)
